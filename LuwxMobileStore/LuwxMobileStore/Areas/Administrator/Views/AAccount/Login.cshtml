@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="@Url.Content("~/Areas/Administrator/Content/css/login.css")">
+</head>
+<body>
+    <div class="login-title">
+        <p>Đăng nhập</p> 
+    </div>
+    @using (Html.BeginForm("Login", "AAccount", new { area="Administrator" ,returnUrl = Request.QueryString["returnUrl"] }, FormMethod.Post, new { @id = "login-form", @name = "login-form" }))
+    {
+	    <div id="block">
+		    <label id="user" for="name">p</label>
+            @Html.TextBox("username", null, new { @name = "username", @id = "username", @required = "", @placeholder = "Username" })
+
+		    <label id="pass" for="password">k</label>
+            @Html.Password("password", null, new { @name = "password", @id = "password", @required = "", @placeholder = "Password" })
+
+		    <input type="submit" id="submit" name="submit" value="a"/>
+            @Html.AntiForgeryToken()
+	    </div>
+    }
+</body>
+</html>

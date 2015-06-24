@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using MobileStore.Bussiness.Models
+
+
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">Danh sách sản phẩm</h3>
+        <ul class="tabs">
+            <li><a href="@Url.Action("Add", "AProduct")">Thêm mới</a></li>
+        </ul>
+    </header>
+
+    <div class="tab_container">
+        <div id="tab2" class="tab_content">
+            
+        </div><!-- end of #tab2 -->
+
+    </div><!-- end of .tab_container -->
+
+    <footer>
+        <div class="submit_link">
+            <select id="pageSize">
+                <option value="10">10 Sản phẩm</option>
+                <option value="20">20 Sản phẩm</option>
+                <option value="50">50 Sản phẩm</option>
+                <option value="100">100 Sản phẩm</option>
+            </select>
+        </div>
+    </footer>
+
+</article><!-- end of content manager article -->
+
+<article id="paging" class="trasparent">
+    
+</article>
+
+@{
+    string purl = Url.Action("_ListProducts","AProduct");
+    string paging = Url.Action("_Paging","AProduct");
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Load Products
+        $.ajax({
+            type: 'POST',
+            url: '@purl' + '?catType=@ViewBag.type',
+            success:function(res){
+                $("#tab2").html(res);
+            },
+            error: function (res) {
+                $.promt("Đã có lỗi xảy ra, xin vui lòng thử lại!");
+            }
+        });
+
+        //Load Paging
+        $.ajax({
+            type:'POST',
+            url: '@paging' + '?catType=@ViewBag.type',
+            success: function (res) {
+                $("#paging").html(res);
+            }
+        });
+
+        $("#pageSize").on('change', function () {
+            var query = '?page=1&pageSize=' + $(this).val() + '&catType=@ViewBag.type';
+            $.ajax({
+                type: 'POST',
+                url: '@purl'+query,
+                success: function (res) {
+                    $("#tab2").html(res);
+                },
+                error: function (res) {
+                    $.promt("Đã có lỗi xảy ra, xin vui lòng thử lại!");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@paging'+query,
+                success: function (res) {
+                    $("#paging").html(res);
+                }
+            });
+        });
+    });
+</script>

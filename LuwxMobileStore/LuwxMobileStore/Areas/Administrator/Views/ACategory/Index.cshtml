@@ -1,0 +1,277 @@
+﻿@{
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using MobileStore.Bussiness.Models
+
+@{
+    List<Category> ListCategory = ViewData["Cats"] as List<Category>;
+    int i = 1;
+}
+<a id="List" name="List"></a>
+<article  class="module width_full">
+    <header>
+        <h3 class="tabs_involved">Loại sản phẩm</h3>
+        <ul class="anchor">
+            <li><a id="AddNew">Thêm mới</a></li>
+        </ul>
+    </header>
+
+    <div class="tab_container">
+        <div id="tab2" class="tab_content">
+            <table class="tablesorter" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>Mô tả</th>
+                        <th>Kiểu</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Category cat in ListCategory)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@cat.Name</td>
+                            <td>@cat.Description</td>
+                            @if(cat.CategoryType=="Brand")
+                            { 
+                                <td>Hãng điện thoại</td>
+                            }
+                            else
+                            {
+                                <td>Phụ kiện</td>
+                            }
+                            
+                            <td>
+                                <input class="edit_category" id="edit-@cat.CategoryID"
+                                       type="image"
+                                       src="@Url.Content("~/Areas/Administrator/Content/images/icn_edit.png")"
+                                       title="Edit">
+                                <input class="delete_category" id="delete-@cat.CategoryID"
+                                       type="image"
+                                       src="@Url.Content("~/Areas/Administrator/Content/images/icn_trash.png")"
+                                       title="Trash">
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div><!-- end of #tab2 -->
+
+    </div><!-- end of .tab_container -->
+
+    <footer>
+        <div class="submit_link">
+
+        </div>
+    </footer>
+
+</article><!-- end of content manager article -->
+@{
+    string delUrl = Url.Action("Delete","ACategory");
+    string editUrl = Url.Action("Edit", "ACategory");
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.delete_category').on('click', function () {
+            var id = $(this).attr('id').split('-')[1];
+            $.prompt(
+                "Bạn có chắc chắn muốn xóa?",
+                {
+                    title: "Xác nhận",
+                    buttons: { "OK": true, "Cancel": false },
+                    close: function (e, v, m, f) {
+                        if (v) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@delUrl',
+                                data: { ID: id },
+                                success: function (res) {
+                                    if (res === 'success') {
+                                        $('#delete-' + id).closest('tr').hide('slow', function () { $(this).remove(); });
+                                    }
+                                }
+                            });
+                        } else { }
+                    }
+                });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".edit_category").on('click', function () {
+            var id = $(this).attr('id').split('-')[1];
+            var data;
+            $.ajax({
+                type: 'POST',
+                url: '@editUrl',
+                data: { ID: id },
+                success: function (res) {
+                    data = res;
+                    $('#catID').val(data.CategoryID);
+                    $('#txtName').val(data.Name);
+                    $('#txtDes').val(data.Description);
+                    var ops = $('#catType option');
+                    $.each(ops, function (i, v) {
+                        if ($(v).val().trim().toLowerCase() == data.CategoryType.trim().toLowerCase())
+                        {
+                            $(v).attr('selected','selected');
+                        }
+                    });
+                    //$(document.body).scrollTop($("#New").offset().top);
+                    $(document.body).animate({'scrollTop':$("#New").offset().top},1500);
+                }
+            });
+        });
+    });
+</script>
+
+
+<a id="New" name="New"></a>
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">Thông tin</h3>
+        <ul class="anchor">
+            <li><a id="ViewList">Danh sách</a></li>
+        </ul>
+    </header>
+    <div class="module_content">
+        <input type="hidden"  id="catID"  name="catID" value="" />
+        <fieldset style="width: 48%; float: left; margin-right: 3%;">
+            <label>Tên Loại</label>
+            <input type="text" style="width:92%;" id="txtName" placeholder="Tên loại sản phẩm">
+        </fieldset>
+
+        <fieldset style="width:48%; float:left;">
+            <!-- to make two field float next to one another, adjust values accordingly -->
+            <label>Kiểu loại</label>
+            <select id="catType" style="width:92%;">
+                <option value="brand">Hãng sản xuất</option>
+                <option value="accessories">Phụ kiện</option>
+            </select>
+        </fieldset><div class="clear"></div>
+
+        <fieldset>
+            <label>Mô tả</label>
+            <textarea id="txtDes" rows="3" placeholder="Mô tả sản phẩm"></textarea>
+        </fieldset>
+    </div>
+    <footer>
+        <div class="submit_link">
+            <input type="button" id="btnAddNew" value="Thêm mới" class="alt_btn">
+            <input type="button" id="btnSave" class="alt_btn" value="Lưu lại">
+        </div>
+    </footer>
+
+</article>
+@{
+    string addUrl = Url.Action("Add","ACategory");
+    string editDataUrl = Url.Action("EditData", "ACategory");
+}
+@*Save infomation*@
+<script>
+    $(document).ready(function () {
+        $('#btnAddNew').on('click', function () {
+            var dat = {
+                Name: $('#txtName').val(),
+                Description: $('#txtDes').val(),
+                CategoryType:$('#catType').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '@addUrl',
+                data: dat,
+                success: function (res) {
+                    if (res.CategoryID!=null)
+                    {
+                        LoadData(res);
+                    }
+                }
+            });
+        });
+
+        function LoadData(data)
+        {
+            var tr = $('#tab2 table tbody tr:last-child').clone();
+            var ftd = tr.children().first();
+            var id = parseInt($(ftd).html()) + 1;
+            $(ftd).text(id);
+
+            ftd.next().text(data.Name);
+            ftd.next().next().text(data.Description);
+
+            var catType = $(ftd).next().next().next();
+            if(data.CategoryType.toLowerCase()=='brand')
+            {
+                $(catType).text("Hãng điện thoại");
+            }else
+            {
+                $(catType).text("Phụ kiện");
+            }
+
+            $(catType).next().children('input').first().attr('id', 'edit-' + data.CategoryID);
+            $(catType).next().children('input').last().attr('id', 'delete-' + data.CategoryID);
+
+            var tr2 = $(tr).hide();
+            $("#tab2 table tbody").append(tr2);
+            tr2.show(1500);
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+            var dat = {
+                CategoryID:$('#catID').val(),
+                Name: $('#txtName').val(),
+                Description: $('#txtDes').val(),
+                CategoryType: $('#catType').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '@editDataUrl',
+                data: dat,
+                success: function (res) {
+                    if (res.CategoryID != null) {
+                        
+                        var tr = $('#edit-' + res.CategoryID).closest('tr');
+                        var ftd = tr.children().first();
+                        
+                        ftd.next().text(res.Name);
+                        ftd.next().next().text(res.Description);
+
+                        var catType = $(ftd).next().next().next();
+                        if (res.CategoryType.toLowerCase() == 'brand') {
+                            $(catType).text("Hãng điện thoại");
+                        } else {
+                            $(catType).text("Phụ kiện");
+                        }
+                        console.log(tr);
+                    }
+                }
+            });
+        
+        });
+    });
+</script>
+
+@*Scroll Animate*@
+<script>
+    $(document).ready(function () {
+        $("#AddNew").click(function () {
+            $(document.body).animate({'scrollTop':$("#New").offset().top},1000);
+        });
+        $("#ViewList").click(function () {
+            $(document.body).animate({'scrollTop':$("#List").offset().top},1000);
+        });
+    });
+</script>

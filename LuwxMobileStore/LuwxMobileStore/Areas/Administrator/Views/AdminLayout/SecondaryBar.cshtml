@@ -1,0 +1,12 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    Account acc = ViewData["Account"] as Account;
+}
+
+<div class="user">
+    <p>@acc.Username (<a href="#">0 Messages</a>)</p>
+    <a class="logout_user" href="@Url.Action("Logout","AAccount")" title="Logout">Logout</a>
+</div>
+<div class="breadcrumbs_container">
+    <article class="breadcrumbs"><a href="">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
+</div>

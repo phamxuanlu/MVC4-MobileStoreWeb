@@ -1,0 +1,86 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminLayout.cshtml";
+    List<Orders> lst = ViewData["Orders"] as List<Orders>;
+    int count = 1;
+}
+
+<style>
+    .accepted {
+        background: #CCFFFF;
+    }
+    .pending {
+        background: #FFFF99;
+    }
+    .rejected {
+        background: #FF0000;
+    }
+</style>
+
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">Danh sách đặt hàng</h3>
+        <ul class="tabs">
+        </ul>
+    </header>
+
+    <div class="tab_container">
+        <div id="tab2" class="tab_content">
+            <table class="tablesorter" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Đánh dấu</th>
+                        <th>Ngày</th>
+                        <th>Khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Orders odr in lst)
+                    {
+                        string name = odr.LastName + " " + odr.FirstName;
+                        string cls="rejected";
+                        string sts = "Từ chối";
+                        if(odr.Status==1)
+                        {
+                            cls = "pending";
+                            sts = "Chờ duyệt";
+                        }
+                        if(odr.Status==2)
+                        {
+                            cls = "accepted";
+                            sts = "Chấp nhận";
+                        }
+                        <tr class="@cls">
+                            <td>@count</td>
+                            <td><input type="checkbox"></td>
+                            <td>@odr.OrderDate.ToString("dd/MM/yyyy")</td>
+                            <td>@name</td>
+                            <td>@odr.PhoneNumber</td>
+                            <td>@odr.TotalAmount</td>
+                            <td>@sts</td>
+                            <td>
+                                @Html.ActionLink("Chi tiết","ViewOrder", "Orders",new{ID=odr.OrdersID},null)
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div><!-- end of #tab2 -->
+
+    </div><!-- end of .tab_container -->
+
+    <footer>
+        <div class="submit_link">
+            
+        </div>
+    </footer>
+
+</article><!-- end of content manager article -->
+

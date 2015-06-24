@@ -1,0 +1,138 @@
+﻿@{
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using MobileStore.Bussiness.Models
+@{
+    List<Category> Categories = ViewData["Cats"] as List<Category>;
+    Product pr = ViewData["Product"] as Product;
+}
+
+<script src="~/Content/ckfinder/ckfinder.js"></script>
+<article class="module width_full">
+    <header><h3>Sửa thông tin sản phẩm</h3></header>
+    <div class="module_content">
+        <fieldset>
+            <label>Tên sản phẩm</label>
+            <input type="text" id="txtName" value="@pr.Name" placeholder="Tên sản phẩm">
+        </fieldset>
+
+        <fieldset style="width:30%; float:left; margin-right: 4%;">
+            <!-- to make two field float next to one another, adjust values accordingly -->
+            <label>Loại sản phẩm</label>
+            <select id="catID" style="width:82%;">
+                @foreach (Category cat in Categories)
+                {
+                    if(pr.CategoryID==cat.CategoryID)
+                    { 
+                        <option value="@cat.CategoryID" selected="selected">@cat.Name</option>
+                    }
+                    else
+                    { 
+                        <option value="@cat.CategoryID">@cat.Name</option>
+                    }
+                }
+            </select>
+        </fieldset>
+
+        <fieldset style="width:30%; float:left; margin-right:5%;">
+            <!-- to make two field float next to one another, adjust values accordingly -->
+            <label>Số lượng</label>
+            <input type="text" id="quantity" value="@pr.Quantity" placeholder="Số lượng" style="width:82%;">
+        </fieldset>
+
+        <fieldset style="width:30%; float:left;">
+            <!-- to make two field float next to one another, adjust values accordingly -->
+            <label>Đơn giá</label>
+            <input type="text" id="price" value="@pr.ListedPrice" placeholder="Đơn giá" style="width:82%;">
+        </fieldset><div class="clear"></div>
+
+        <fieldset>
+            <label>Mô tả</label>
+            <textarea id="txtDes" rows="2" placeholder="Mô tả sản phẩm">@pr.Description</textarea>
+        </fieldset>
+
+        <fieldset>
+            <label>Ảnh minh họa</label>
+            <input id="txtPic" type="text" style="width:62%;" value="@pr.ImageSource" placeholder="ảnh minh họa" disabled />
+            <input type="button" name="btnPic" value="Chọn ảnh" id="btnPic" />
+        </fieldset>
+
+        <fieldset>
+            <label>Thông số kỹ thuật</label>
+            <textarea id="txtSpec" rows="12">@ViewBag.Specs</textarea>
+        </fieldset>
+
+    </div>
+    <footer>
+        <div class="submit_link">
+            <input type="button" id="btnSave" value="Lưu" class="alt_btn">
+            <input type="button" id="btnCancel" class="alt_btn" value="Hủy">
+        </div>
+    </footer>
+</article><!-- end of post new article -->
+@{
+    string addUrl = Url.Action("Edit", "AProduct");
+}
+<script>
+    $(document).ready(function () {
+        //button Cancel clicked
+        $("#btnCancel").on("click", function () {
+            var Mess = "Bạn chắc chắn muốn hủy thông tin đã nhập?"
+            $.prompt(Mess, {
+                title: "Xác nhận",
+                buttons: { "OK": true, "Cancel": false },
+                close: function (e, v, m, f) {
+                    if (v) {
+                        window.location.href = '@Url.Action("Index","AProduct")';
+                    } else { }
+                }
+            });
+        });
+
+        //Popup to upload image
+        $("#btnPic").click(function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (selectUrl) {
+                $("#txtPic").val(selectUrl);
+            };
+            finder.popup();
+        });
+
+        //Submit data using Ajax
+        $("#btnSave").on("click", function () {
+            var dat = {
+                ProductID:@pr.ProductID,
+                Name: $("#txtName").val(),
+                CategoryID: $("#catID").val(),
+                Quantity: $("#quantity").val(),
+                ListedPrice: $("#price").val(),
+                Description: $("#txtDes").val(),
+                ImageSource: $("#txtPic").val(),
+                Specifications: $("#txtSpec").val()
+            }
+
+            //Post to action
+            $.ajax({
+                type: 'POST',
+                url: '@addUrl',
+                data: dat,
+                success: function (res) {
+                    if (res === 'success') {
+                        var Mess = "Nhấn OK để trở về danh sách sản phẩm"
+                        $.prompt(Mess, {
+                            title: "Lưu thông tin sản phẩm thành công",
+                            buttons: { "OK": true, "Cancel": false },
+                            close: function (e, v, m, f) {
+                                if (v) {
+                                    window.location.href = '/Administrator/AProduct';
+                                } else { }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+

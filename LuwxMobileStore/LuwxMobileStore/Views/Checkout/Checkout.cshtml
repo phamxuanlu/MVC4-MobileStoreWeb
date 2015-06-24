@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    
+<link href="~/Content/Checkout/css/style.css" rel="stylesheet" />
+<script src="~/Content/Checkout/js/modernizr.custom.63321.js"></script>
+
+    <header>
+        <h2>Bạn cần đăng nhập để tiếp tục...</h2>
+    </header>
+    <section class="main">
+        <form method="post" class="form-1">
+            <p class="field">
+                <input id="txtUsername" type="text" name="login" placeholder="Username or email">
+                <i class="icon-user icon-large"></i>
+            </p>
+            <p class="field">
+                <input id="txtPass" type="password" name="password" placeholder="Password">
+                <i class="icon-lock icon-large"></i>
+            </p>
+            <p class="submit">
+                <button id="btnLogin" type="submit" name="submit"><i class="icon-arrow-right icon-large"></i></button>
+            </p>
+        </form>
+    </section>
+    
+    <script>
+        $(document).ready(function () {
+            $('#btnLogin').on('click', function (event) {
+                event.preventDefault();
+                var lgModel = {
+                    Username: $('#txtUsername').val(),
+                    Password: $('#txtPass').val(),
+                    RememberMe:true
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Login","Account")',
+                    data: lgModel,
+                    success: function (res) {
+                        console.log(res);
+                        location.reload();
+                    }
+                });
+
+            });
+        });
+    </script>
+    
+}
+else
+{
+       <section class="main">
+           <div class="container">
+               @using(Html.BeginForm("SaveBill","Checkout",FormMethod.Post))
+               { 
+               <ul>
+                   <li>
+                       <label>Họ và tên:</label>
+                       <input type="text" id="txtLName" name="txtLName" value="" placeholder="Họ" />
+                   </li>
+
+                   <li>
+                       <label>Họ và tên:</label>
+                       <input type="text" id="txtFName" name="txtFName" value="" placeholder="Tên" />
+                   </li>
+
+                   <li>
+                       <label>Địa chỉ:</label>
+                       <input type="text" id="txtAddess" name="txtAddess" value="" placeholder="Địa chỉ" />
+                   </li>
+
+                   <li>
+                       <label>Địa chỉ nhận hàng:</label>
+                       <input type="text" id="txtReceive" name="txtReceive" value="" placeholder="Địa chỉ nhận hàng" />
+                   </li>
+
+                   <li>
+                       <label>Số điện thoại:</label>
+                       <input type="text" id="txtPhone" name="txtPhone" value="" placeholder="Số điện thoại" />
+                   </li>
+
+                   <li>
+                       <label>Email:</label>
+                       <input type="text" id="txtEmail" name="txtEmail" value="" placeholder="Email" />
+                   </li>
+
+                   <li>
+                       <label>Số CMND/Hộ chiếu:</label>
+                       <input type="text" id="txtPassport" name="txtPassport" value="" placeholder="CMND/Hộ chiếu" />
+                   </li>
+
+                   <li>
+                       <label>Ghi chú:</label>
+                       <textarea id="txtNote" name="txtNote" cols="50" rows="5"></textarea>
+                   </li>   
+
+                   <li>
+                       <input type="submit" id="btnOrder" name="btnOrder" value="Đặt hàng" />
+                   </li>
+               </ul>
+               }
+           </div>
+       </section>
+    
+    <script>
+        $(document).ready(function () {
+            $("#btnOrder").on('click', function () {
+            });
+        });
+    </script>
+}

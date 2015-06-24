@@ -1,0 +1,113 @@
+﻿<div id="container_demo" >
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+    <div id="wrapper">
+        <div id="login" class="animate form">
+            <form id="form-login" action="@Url.Action("Login", "Account")" autocomplete="on"> 
+                <h1>Đăng nhập</h1> 
+                <p> 
+                    <label for="username" class="uname" data-icon="u" > Tên đăng nhập </label>
+                    <input id="username" name="username" required="required" type="text" placeholder=""/>
+                </p>
+                <p> 
+                    <label for="password" class="youpasswd" data-icon="p"> Mật khẩu </label>
+                    <input id="password" name="password" required="required" type="password" placeholder="" /> 
+                </p>
+                <p class="keeplogin"> 
+				    <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
+				    <label for="loginkeeping">Ghi nhớ đăng nhập</label>
+			    </p>
+                <p class="login button"> 
+                    <input id="btnLogin" type="submit" value="Login" /> 
+			    </p>
+                <p class="change_link">
+				    Bạn chưa có tài khoản ?
+				    <a href="#toregister" class="to_register">Đăng ký</a>
+			    </p>
+            </form>
+        </div>
+
+        <div id="register" class="animate form">
+            <form id="form-register"  action="@Url.Action("Register", "Account")" autocomplete="on"> 
+                <h1>Đăng ký</h1> 
+                <p> 
+                    <label for="usernamesignup" class="uname" data-icon="u">Tên đăng nhập</label>
+                    <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
+                </p>
+                <p> 
+                    <label for="emailsignup" class="youmail" data-icon="e" > Email</label>
+                    <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/> 
+                </p>
+                <p> 
+                    <label for="passwordsignup" class="youpasswd" data-icon="p">Mật khẩu </label>
+                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                </p>
+                <p> 
+                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Nhập lại mật khẩu </label>
+                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                </p>
+                <p class="signin button"> 
+				    <input id="btnReg" type="submit" value="Sign up"/> 
+			    </p>
+                <p class="change_link">  
+				    Đã có tài khoản ?
+				    <a href="#tologin" class="to_register"> Đăng nhập </a>
+			    </p>
+            </form>
+        </div>
+						
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnLogin").click(function (evt) {
+            var postData = {
+                Username: $("#username").val(),
+                Password: $("#password").val(),
+                RememberMe: $("#loginkeeping").prop('checked')
+            };
+            evt.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $("#form-login").attr('action'),
+                data: JSON.stringify({ lgModel: postData }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (res) {
+                    if (res == 'success') {
+                        location.reload();
+                    }
+                    else {
+                        console.log(res);
+                    }
+                }
+            });
+        });
+
+        $("#btnReg").click(function (evnt) {
+            var postData = {
+                Username: $("#usernamesignup").val(),
+                Password: $("#passwordsignup").val(),
+                Email: $("#emailsignup").val(),
+                ConfirmPassword: $("#passwordsignup_confirm").val()
+            };
+            evnt.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $("#form-register").attr('action'),
+                data: JSON.stringify({ rgModel: postData }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (res) {
+                    if (res == 'success') {
+                        location.reload();
+                    }
+                    else {
+                        console.log(res);
+                    }
+                }
+            });
+        }); ;
+
+    });
+</script>

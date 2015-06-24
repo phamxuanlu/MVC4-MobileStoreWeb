@@ -1,0 +1,27 @@
+﻿@using MobileStore.Bussiness.Models;
+@{
+    ViewBag.Title = "Keep it simple stupid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+    <!--Banner Starts-->
+    @{Html.RenderAction("_PartialBanner", "Home");}
+    <!--Banner Ends-->
+
+<!--Product List Starts-->
+<div class="products_list products_slider">
+    <h2 class="sub_title">Sản phẩm mới</h2>
+    @{Html.RenderAction("_PartialListNewProduct", "Home", null);}
+</div>
+<!--Product List Ends-->
+
+<!--Product List Starts-->
+<div class="products_list products_slider">
+    <h2 class="sub_title">Sản phẩm bán chạy</h2>
+    @{Html.RenderAction("_PartialListTopSales", "Home", null);}
+</div>
+<!--Product List Ends-->
+            
+<!--Product List Starts-->
+    @{Html.RenderAction("_PartialBrandFilter", "Home", null);}
+<!--Product List Ends-->

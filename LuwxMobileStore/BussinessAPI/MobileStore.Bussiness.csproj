@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{40EAD375-BDE4-456A-BBD9-892DFC2E785D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MobileStore.Bussiness</RootNamespace>
+    <AssemblyName>BussinessAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bussiness\AccountAPI.cs" />
+    <Compile Include="Bussiness\CategoryAPI.cs" />
+    <Compile Include="Bussiness\OrderDetailBUS.cs" />
+    <Compile Include="Bussiness\OrdersBUS.cs" />
+    <Compile Include="Bussiness\PictureAPI.cs" />
+    <Compile Include="Bussiness\ProductAPI.cs" />
+    <Compile Include="Bussiness\SlideAPI.cs" />
+    <Compile Include="Bussiness\SpecificationAPI.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AccountIInRole.cs" />
+    <Compile Include="Models\AccountInRoles.cs" />
+    <Compile Include="Models\AccountState.cs" />
+    <Compile Include="Models\AccountStatus.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryType.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\OrderStatus.cs" />
+    <Compile Include="Models\Picture.cs" />
+    <Compile Include="Models\Orders.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\QueryState.cs" />
+    <Compile Include="Models\RegisterState.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\Slide.cs" />
+    <Compile Include="Models\SlideType.cs" />
+    <Compile Include="Models\Specification.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Database\MobileStore.DataProvider.csproj">
+      <Project>{6771CA9F-0E04-4BC3-BEAF-8FA3858099AC}</Project>
+      <Name>MobileStore.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MobileStore.Utilities\MobileStore.Utilities.csproj">
+      <Project>{7E96D45C-D68D-4AA0-8A6F-98DB5BD10D33}</Project>
+      <Name>MobileStore.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

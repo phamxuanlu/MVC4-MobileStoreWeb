@@ -1,0 +1,87 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    List<Product> ListProducts = ViewData["Products"] as List<Product>;
+    List<Category> ListCat = ViewData["Cats"] as List<Category>;
+    int count = 1;
+}
+
+<table class="tablesorter" cellspacing="0">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Đánh dấu</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại sản phẩm</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Product pr in ListProducts)
+        {
+            Category cat = ListCat.Find(x=>x.CategoryID==pr.CategoryID);
+            <tr>
+                <td>@count</td>
+                <td><input type="checkbox"></td>
+                <td>@pr.Name</td>
+                <td>@cat.Name</td>
+                <td>@pr.ListedPrice</td>
+                <td>@pr.Quantity</td>
+                
+                <td>
+                    <input class="edit_product" id="edit-@pr.ProductID" 
+                           type="image" 
+                           src="@Url.Content("~/Areas/Administrator/Content/images/icn_edit.png")" 
+                           title="Edit">
+                    <input class="delete_product" id="delete-@pr.ProductID"
+                           type="image" 
+                           src="@Url.Content("~/Areas/Administrator/Content/images/icn_trash.png")" 
+                           title="Trash">
+                </td>
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>
+
+@{
+    string delUrl = Url.Action("Delete","AProduct");
+    string editUrl = Url.Action("Edit", "AProduct");
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Edit icon click
+        $(".edit_product").on('click', function () {
+            var id = $(this).attr("id").split('-')[1];
+            window.location.href = '@editUrl' + "/" + id;;
+        });
+
+
+        //Delete icon click
+        $(".delete_product").on('click', function () {
+            var id = $(this).attr("id").split('-')[1];
+            var Mess = "Bạn có chắc chắn muốn xóa sản phẩm này?"
+            $.prompt(Mess, {
+                title: "Xác nhận",
+                buttons: { "OK": true, "Cancel": false },
+                close: function (e, v, m, f) {
+                    if (v) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@delUrl',
+                            data: { ID: id },
+                            success: function (res) {
+                                if (res === 'success') {
+                                    $('#delete-' + id).closest('tr').hide('slow', function () { $(this).remove(); });
+                                }
+                            }
+                        });
+                    } else { }
+                }
+            });
+            
+            
+        });
+    });
+</script>

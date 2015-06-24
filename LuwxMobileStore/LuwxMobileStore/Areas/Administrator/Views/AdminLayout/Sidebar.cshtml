@@ -1,0 +1,37 @@
+﻿<form class="quick_search">
+    <input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+</form>
+<hr />
+<h3>Quản lý hệ thống</h3>
+<ul class="toggle">
+    <li class="icn_new_article"><a href="@Url.Action("Index","AProduct")">Điện thoại</a></li>
+    <li class="icn_edit_article"><a href="@Url.Action("Index", "AProduct", new { type="accessories"})">Phụ kiện</a></li>
+    <li class="icn_categories"><a href="@Url.Action("Index","ACategory")">Loại sản phẩm</a></li>
+</ul>
+
+<h3>Hóa đơn</h3>
+<ul class="toggle">
+    <li class="icn_folder"><a href="@Url.Action("Index","Orders")">Chờ duyệt</a></li>
+    <li class="icn_photo"><a href="@Url.Action("Index", "Orders", new { stt="Accepted"})">Chấp nhận</a></li>
+    <li class="icn_audio"><a href="@Url.Action("Index", "Orders", new { stt="Rejected"})">Từ chối</a></li>
+</ul>
+
+<h3>Người dùng</h3>
+<ul class="toggle">
+    <li class="icn_add_user"><a href="@Url.Action("Index","Dev")">Người dùng</a></li>
+    <li class="icn_view_users"><a href="@Url.Action("Index","Dev")">Khách hàng</a></li>
+    <li class="icn_profile"><a href="@Url.Action("Index","Dev")">Thông tin cá nhân</a></li>
+</ul>
+
+<h3>Admin</h3>
+<ul class="toggle">
+    <li class="icn_settings"><a href="@Url.Action("Index","Dev")">Options</a></li>
+    <li class="icn_security"><a href="@Url.Action("Index","Dev")">Security</a></li>
+    <li class="icn_jump_back"><a href="@Url.Action("Logout","AAccount")">Logout</a></li>
+</ul>
+
+<footer>
+    <hr />
+    <p><strong>Copyright &copy; 2013 M T A</strong></p>
+    <p><a href="http://mta.edu.vn">Military Technical Academy</a></p>
+</footer>

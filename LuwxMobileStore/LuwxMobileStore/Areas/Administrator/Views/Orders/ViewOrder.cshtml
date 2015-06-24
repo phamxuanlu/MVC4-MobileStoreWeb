@@ -1,0 +1,200 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    ViewBag.Title = "ViewOrder";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminLayout.cshtml";
+    Orders ord = ViewData["Order"] as Orders;
+    List<OrderDetail> lst = ViewData["Details"] as List<OrderDetail>;
+    List<Product> lstPrs = ViewData["Products"] as List<Product>;
+    int count = 1;
+    string HT = ord.LastName + " " + ord.FirstName;
+    string status = "Đã từ chối";
+    if(ord.Status==1)
+    {
+        status = "Chờ xét duyệt";
+    }
+    if(ord.Status==2)
+    {
+        status = "Đã chấp nhận đơn hàng";
+    }
+    
+}
+<style>
+    .td_margin
+    {
+        width:20px;
+    }
+</style>
+
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">Chi tiết hóa đơn</h3>
+        <ul class="tabs">
+            @if(ord.Status==1)
+            {
+                <li><a href="#" id="btnAccept">Chấp nhận</a></li>
+                <li><a href="#" id="btnReject">Từ chối</a></li>
+            }
+        </ul>
+    </header>
+    <div class="module_content">
+        <fieldset>
+            <label>Thông tin đơn hàng</label>
+            <table>
+                <tr>
+                    <td>Số hiệu</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.OrdersID</td>
+                </tr>
+                <tr>
+                    <td>Ngày đặt hàng</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.OrderDate</td>
+                </tr>
+                <tr>
+                    <td>Trạng thái đơn hàng</td>
+                    <td class="td_margin"></td>
+                    <td>@status</td>
+                </tr>
+                <tr>
+                    <td>Họ tên</td>
+                    <td class="td_margin"></td>
+                    <td>@HT</td>
+                </tr>
+                <tr>
+                    <td>CMND/Hộ chiếu</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.CMND</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.Adress</td>
+                </tr>
+                <tr>
+                    <td>Điện thoại</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.PhoneNumber</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.Email</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ nhận hàng</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.ReceiveAddress</td>
+                </tr>
+                <tr>
+                    <td>Ghi chú</td>
+                    <td class="td_margin"></td>
+                    <td>@ord.Note</td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <label>Danh sách sản phẩm đặt mua</label>
+            <div class="tab_container">
+                <div id="tab2" class="tab_content">
+                    <table class="tablesorter" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (OrderDetail odr in lst)
+                    {
+                        Product pr = lstPrs.Find(x=>x.ProductID==odr.ProductID);
+                        int subTotal = pr.ListedPrice * odr.Quantity;
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@pr.Name</td>
+                                    <td>@pr.ListedPrice</td>
+                                    <td>@odr.Quantity</td>
+                                    <td>@subTotal</td>
+                                </tr>
+                        count++;
+                    }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td><b>Tổng tiền</b></td>
+                                <td><b>@ord.TotalAmount</b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div><!-- end of #tab2 -->
+
+            </div><!-- end of .tab_container -->
+        </fieldset>
+    </div>
+    <footer>
+        <div class="submit_link">
+        </div>
+    </footer>
+</article>
+@{
+    string acUrl = Url.Action("Accept","Orders");
+    string rejUrl = Url.Action("Reject","Orders");
+}
+<script>
+    $(document).ready(function () {
+        $('#btnAccept').on('click', function (e) {
+            e.preventDefault();
+            $.prompt("Xác nhận duyệt đơn hàng và giao hàng.",{
+                title:"Xác nhận",
+                buttons:{"OK": true, "Cancel": false },
+                close:function(e,v,m,f)
+                {
+                    if(v)
+                    {
+                        $.ajax({
+                            type: 'POST',
+                            url:'@acUrl',
+                            data:{ID:@ord.OrdersID},
+                            success:function(res){
+                                if(res=='success')
+                                {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+                }
+        });
+        });
+
+        //Reject click
+        $("#btnReject").on('click',function(e){
+            e.preventDefault();
+            $.prompt('Xác nhận từ chối đơn hàng',
+                {
+                    title:"Xác nhận",
+                    buttons:{'OK':true,'Cancel':false},
+                    close:function(e,v,m,f){
+                        if(v){
+                            $.ajax({
+                                type:'POST',
+                                url:'@rejUrl',
+                                data:{ID:@ord.OrdersID},
+                                success:function(res){
+                                    if(res=='success')
+                                    {
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+        });
+
+    });
+</script>

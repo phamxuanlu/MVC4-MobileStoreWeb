@@ -1,0 +1,5 @@
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\MobileStore.Utilities\bin\Debug\MobileStore.Utilities.dll
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\MobileStore.Utilities\bin\Debug\MobileStore.Utilities.pdb
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\MobileStore.Utilities\obj\Debug\MobileStore.Utilities.csprojResolveAssemblyReference.cache
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\MobileStore.Utilities\obj\Debug\MobileStore.Utilities.dll
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\MobileStore.Utilities\obj\Debug\MobileStore.Utilities.pdb

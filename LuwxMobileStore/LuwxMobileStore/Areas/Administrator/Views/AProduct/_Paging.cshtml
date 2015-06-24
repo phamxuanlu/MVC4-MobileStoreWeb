@@ -1,0 +1,51 @@
+﻿
+@if(ViewBag.TotalPage>1)
+{ 
+    <div class="paginate wrapper">
+        <ul>
+            @for (int i = 1; i < ViewBag.TotalPage + 1; i++)
+            {
+                if (ViewBag.Page == i)
+                {
+                    <li><a href="#" class="active">@i</a></li>
+                }
+                else
+                { 
+                    <li><a href="#">@i</a></li>
+                }
+            }
+        </ul>
+    </div>
+    
+    string purl = Url.Action("_ListProducts", "AProduct");
+    
+    <script type="text/javascript">
+        $(".paginate li a").on('click', function () {
+            //Neu click vao trang hien tai thi ko lam j ca
+            if ($(this).attr('class') == 'active'){
+                return false;
+            }
+
+            //Gia tri trang click
+            var page = $(this).html();
+            var pageSize = $("#pageSize").val();
+
+            //Chon trang
+            $(".paginate li a.active").removeClass('active');
+            $(this).addClass('active');
+
+            //Load Data
+            var query = '?page=' + page + '&pageSize='+pageSize+'&catType=@ViewBag.type';
+            $.ajax({
+                type: 'POST',
+                url: '@purl' + query,
+                success: function (res) {
+                    $("#tab2").html(res);
+                },
+                error: function () {
+                    $.prompt("Đã có lỗi xảy ra, xin vui lòng thử lại!");
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    List<Category> ListCats = ViewData["Categories"] as List<Category>;
+    List<Product> ListProducts = ViewData["ListProducts"] as List<Product>;
+}
+
+@foreach(Category cat in ListCats)
+{ 
+        List<Product> list = ListProducts.FindAll(x => x.CategoryID == cat.CategoryID);
+        if (list.Count == 0)
+        { 
+            continue; 
+        }
+   
+    <div class="products_list products_slider">
+        <h2 class="sub_title">@cat.Name</h2>
+        <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+            @foreach (Product pr in list)
+            {
+                <li> <a class="product_image" href="@Url.Action("ViewDetail", "ProductDetail", new { ID=pr.ProductID})"><img alt="@pr.Name" src="@Url.Content(pr.ImageSource)"/></a>
+                    <div class="product_info">
+                        <h3><a href="@Url.Action("ViewDetail", "ProductDetail", new { ID = pr.ProductID })">@pr.Name</a></h3>
+                        <small>@pr.Description</small> 
+                    </div>
+                    <div class="price_info">@* <a href="#">+ Add to wishlist</a>*@
+                        <button class="price_add" id="product-@pr.ProductID" title="" type="button"><span class="pr_price">@pr.ListedPrice.000</span><span class="pr_add" data-post-url="@Url.Action("AddToCart", "Cart")">Đặt mua</span></button>
+                    </div>
+                </li>
+            }   
+        </ul>
+    </div>
+}

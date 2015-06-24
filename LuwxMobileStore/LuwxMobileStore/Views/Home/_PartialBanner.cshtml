@@ -1,0 +1,27 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    List<Slide> ListSlides = ViewData["ListSlides"] as List<Slide>;
+    List<Slide> PromoBanner = ViewData["PromoBanner"] as List<Slide>;
+}
+
+<div id="banner_section">
+    <div class="flexslider">
+        <ul class="slides">
+            @foreach (Slide sl in ListSlides)
+            {
+                <li> <img src="@Url.Content(sl.ImageSource)" alt="@sl.Title" />
+                    <div class="flex-caption">
+                        <h3>@sl.TextContent</h3>
+                    </div>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <div class="promo_banner">
+        @foreach (Slide sl in PromoBanner)
+        {
+            <div class="home_banner"><a href="@sl.TextContent"><img alt="@sl.Title" src="@Url.Content(sl.ImageSource)"></a></div>
+        }
+    </div>
+</div>

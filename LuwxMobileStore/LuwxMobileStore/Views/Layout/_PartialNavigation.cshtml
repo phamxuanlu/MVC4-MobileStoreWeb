@@ -1,0 +1,53 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    List<Category> Brands = ViewData["Brands"] as List<Category>;
+    List<Category> Accessories = ViewData["Accessories"] as List<Category>;
+}
+<nav>
+    <ul class="primary_nav">
+        <li class="active"><a href="@Url.Action("Index","Home")">Trang chủ</a>
+        </li>
+
+        <li><a href="@Url.Action("ListProducts","Product")">Điện thoại</a>
+            <!--SUbmenu Starts-->
+            <ul class="sub_menu">
+                <li>Hãng sản xuất
+                    <ul>
+                        @foreach(Category ct in Brands)
+                        {
+                            <li><a href="@Url.Action("ListProduct", "Category", new { ID=ct.CategoryID})">@ct.Name</a></li>
+                        }
+                    </ul>
+                </li>
+                
+                
+            </ul>
+            <!--SUbmenu Ends-->
+        </li>
+
+
+        <li><a href="@Url.Action("ListProducts", "Product", new { type="accessories"})">Phụ kiện</a>
+            <!--SUbmenu Starts-->
+            <ul class="sub_menu">
+                <li>Phụ kiện
+                    <ul>
+                        @foreach (Category ct in Accessories)
+                        {
+                            <li><a href="@Url.Action("ListProduct", "Category", new { ID=ct.CategoryID})">@ct.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+            <!--SUbmenu Ends-->
+        </li>
+        <li><a href="@Url.Action("ListNews","News")">Tin tức</a></li>
+        <li><a href="@Url.Action("Contact","Contact")">Liên hệ</a></li>
+        <li><a href="@Url.Action("Http404","Errors")">Coming soon</a></li>
+    </ul>
+
+    <!--Mini Cart Starts-->
+    <div id="mini_cart" class="minicart">
+        @{Html.RenderAction("_PartialMiniCart", "Layout");}
+    </div>
+        <!--Mini Cart Starts-->
+</nav>

@@ -1,0 +1,20 @@
+﻿@using MobileStore.CartUtility
+@using MobileStore.Bussiness.Models
+@{
+    Cart<Product> cart = ViewData["Cart"] as Cart<Product>;
+}
+<a href="#" class="minicart_link" > <span class="item"><b>@cart.ListItems.Count</b> Sản phẩm /</span> <span class="price"><b>VNĐ @cart.CalculateAmount().000</b></span> </a>
+<div class="cart_drop"> <span class="darw"></span>
+    <ul>
+        @for (int i = 0; i < cart.ListItems.Count;i++)
+        { 
+            <li><img src="@cart.ListItems[i].Item.ImageSource" /><a href="@Url.Action("ViewDetail", "ProductDetail", new { ID = cart.ListItems[i].Item.ProductID })">@cart.ListItems[i].Item.Name</a> <span class="price">VNĐ @cart.ListItems[i].Item.ListedPrice.000</span></li>
+        }
+        <div class="cart_bottom">
+            <div class="subtotal_menu">
+                <small>Tổng tiền:</small><big>VNĐ @cart.CalculateAmount().000</big>
+            </div>
+            <a href="@Url.Action("MyCart", "Cart", null)">Thanh toán</a>
+        </div>
+    </ul>
+</div>

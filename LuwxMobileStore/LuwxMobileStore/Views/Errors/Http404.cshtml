@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8" />
+
+	<title>Mobile Store Coming Soon...</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="@Url.Content("~/Content/Comingson/css/reset.css")">
+	<link rel="stylesheet" href="@Url.Content("~/Content/Comingson/fonts/stylesheet.css")">
+	<link rel="stylesheet" href="@Url.Content("~/Content/Comingson/css/style.css")">
+
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="css/ie.css">
+	<![endif]-->
+
+	<!-- IE fix for HTML5 tags -->
+	<!--[if lt IE 9]>
+		<script src="@Url.Content("~/Content/Comingson/js/html5.js")"></script>
+	<![endif]-->
+    
+	<!-- jQuery and Modernizr-->
+
+    <script src="@Url.Content("~/Content/Comingson/js/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/Comingson/js/modernizr.custom.js")" type="text/javascript"></script>
+
+	<!-- Countdown timer and other animations -->
+    <script src="@Url.Content("~/Content/Comingson/js/jquery.countdown.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/Comingson/js/script.js")" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+	<header>
+		<h1>Trang web đang trong quá trình phát triển</h1>
+		<p>Chúng tôi đang nỗ lực hết sức để sớm đưa trang web vào hoạt động, hãy đăng ký để nhận thông tin về chúng tôi.</p>
+	</header>
+
+	<div id="main">
+		<div id="links">
+			<div class="home">@Html.ActionLink("Trang chủ","Index","Home")</div>
+            <div class="download"><a href="#">Phạm Xuân Lữ, Tin học 9A</a></div>
+            <div class="ups"><a href="#">Tạ Quang Tâm, Tin học 9A</a></div>
+            <div class="books"><a href="#">Tel: 01667747394</a></div>
+            <div class="browser"><a href="mailto:phamxuanlu@outlook.com">phamxuanlu@outlook.com</a></div>
+            <div class="support"><a href="#">Trợ giúp</a></div>
+		</div>
+
+		<div id="counter"></div>
+
+		<form action="" method="get">
+			<input type="text" class="email" placeholder="Email của bạn..." required />
+			<input type="submit" class="submit" value="Đăng ký" />
+		</form>
+
+		<div class="social-media-arrow"></div>
+
+		<footer>
+			<ul>
+				<li><a class="digg" href=""></a></li>
+				<li><a class="twitter" href=""></a></li>
+				<li><a class="vimeo" href=""></a></li>
+				<li><a class="skype" href=""></a></li>
+			</ul>
+		</footer>
+	</div>
+
+</body>
+
+</html>

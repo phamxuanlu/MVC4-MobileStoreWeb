@@ -1,0 +1,9 @@
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\BussinessAPI.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\BussinessAPI.pdb
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\obj\Debug\Bussiness.csprojResolveAssemblyReference.cache
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\obj\Debug\BussinessAPI.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\obj\Debug\BussinessAPI.pdb
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\Dataprovider.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\Dataprovider.pdb
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\MobileStore.Utilities.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\BussinessAPI\bin\Debug\MobileStore.Utilities.pdb

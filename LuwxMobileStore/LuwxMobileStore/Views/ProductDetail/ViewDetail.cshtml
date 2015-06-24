@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "ViewDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model MobileStore.Bussiness.Models.Product
+@using MobileStore.Bussiness.Models
+@{
+    Category cat = ViewData["Category"] as Category;
+    List<Picture> ListPictures=ListPictures = ViewData["Pictures"] as List<Picture>;
+    List<Specification> ListSpecs = ViewData["Specifications"] as List<Specification>;
+}
+
+    <!--PRODUCT DETAIL STARTS-->
+    <div id="product_detail"> 
+      <!--Product Left Starts-->
+        <div class="product_leftcol">
+            <img alt="@Model.Name" src="@Url.Content(Model.ImageSource)"> <span class="pr_info">Di chuột qua để phóng to ảnh</span>
+            @if (ListPictures.Count >= 1)
+            {
+
+                <ul class="pr_gallery">
+                    @foreach (Picture pic in ListPictures)
+                    {
+                        <li><img alt="@pic.Title" src="@Url.Content(pic.Location)"></li>
+                    }
+                </ul>
+
+            }
+        </div>
+      <!--Product Left Ends--> 
+      <!--Product Right Starts-->
+      <div class="product_rightcol"> <small class="pr_type"><a href="@Url.Action("ListProducts", "Category", new { ID=cat.CategoryID})">@cat.Name</a></small>
+        <h1>@Model.Name</h1>
+        <p class="short_dc"> @Model.Description
+        
+        <div class="pr_price"> <big>$@Model.ListedPrice</big> </div>
+
+        <div class="qty_info">
+          <div class="quantity">
+            <label>Số lượng :</label>
+              <div class="input-box">
+                    <input type="text" value="" class="input-text">
+              </div>
+          </div>
+        </div>
+        <div class="add_to_buttons">
+          <button class="add_cart">Thêm vào giỏ</button>
+          @*<span>or</span>
+          <ul>
+            <li><a href="#">Add to Wishlist</a></li>
+          </ul>*@
+        </div>
+        <div class="product_overview">
+          <h4>THÔNG SỐ KỸ THUẬT</h4>
+          <ul>
+            @foreach (Specification spec in ListSpecs)
+            {
+                <li> @spec.Name : <b>@spec.Value</b></li>
+            }
+          </ul>
+        </div>
+      </div>
+    <!--Product Right Ends--> 
+  </div>
+  <!--PRODUCT DETAIL ENDS--> 

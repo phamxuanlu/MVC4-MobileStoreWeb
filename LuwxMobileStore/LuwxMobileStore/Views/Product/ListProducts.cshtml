@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--SIDE NAV STARTS-->
+<div id="side_nav">
+    @{Html.RenderAction("_PartialSidebarMenu", "Product", new {type=ViewData["type"]});}
+</div>
+<!--SIDE NAV ENDS-->
+
+
+<!--MAIN CONTENT STARTS-->
+<div id="main_content">
+    <div class="category_banner"> <img src="@Url.Content("~/Images/promo_cat_banner.jpg")"/> </div>
+    <ul class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Product</a></li>
+    </ul>
+
+    <!--Toolbar-->
+    <div class="toolbar">
+        <div class="sortby">
+            <label>Sort by :</label>
+            <select id="sort-option">
+                <option value="new">Mới nhất</option>
+                <option value="name">Tên sản phẩm</option>
+                <option value="price-desc">Giá cao -> thấp</option>
+                <option value="price">Giá thấp -> cao</option>
+            </select>
+        </div>
+        <div class="viewby">
+            <label>View as :</label>
+            <a class="list" href="#"></a> <a class="grid" href="#"></a> 
+        </div>
+        <div class="show_no">
+            <label>Số lượng :</label>
+            <select id="quantity">
+                <option value="12">12</option>
+                <option value="24">24</option>
+            </select>
+        </div>
+    </div>
+    <!--Toolbar-->
+
+    <!--Product List Starts-->
+    <div id="products" class="products_list products_slider">
+        @{Html.RenderAction("_PartialProducts", "Product", new { type = ViewData["type"] });}
+    </div>
+    <!--Product List Ends-->
+
+    <!--Toolbar-->
+    <div class="toolbar">
+
+    </div>
+    <!--Toolbar-->
+</div>
+<!--MAIN CONTENT ENDS-->
+@{
+    string postUrl = Url.Action("_PartialProducts", "Product", new { type = ViewData["type"] });
+            
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sort-option").change(function () {
+            QueryData();
+        });
+    });
+
+    function QueryData() {
+        var query = "sort-option=" + $("#sort-option").val();
+        query += "&quantity=" + $("#quantity").val();
+        
+        @if (!postUrl.Contains("accessories")) {
+            @:query='?'+query;
+        }
+        else {
+            @:query='&'+query;
+        }
+        console.log(query);
+        console.log('@postUrl' + query);
+        $.ajax({
+            type: 'POST',
+            url: '@postUrl' + query,
+            data: {},
+            success: function (res) {
+                
+                $("#products").html(res);
+            }
+        });
+    }
+</script>

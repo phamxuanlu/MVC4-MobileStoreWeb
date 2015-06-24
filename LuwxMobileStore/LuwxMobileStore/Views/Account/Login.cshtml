@@ -1,0 +1,58 @@
+﻿<div class="login">
+    <div class="message error"><div class="icon"></div><span id="error-message">You entered in a wrong password</span><div class="triangle"></div></div>
+    <input id="txtUsername" type="text"/>
+    <input id="txtPassword" type="password"/>
+    <input id="btn-login" type="button" value="Đăng nhập" class="red"/>
+    <input id="btn-register" type="button" value="Đăng ký" class="blue"/>
+    <div class="footer">
+	    <input id="check-remember" type="checkbox" class="uniform"/>
+	    <label>Ghi nhớ tài khoản</label>
+    </div>
+<div class="triangle"></div>
+    
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $(".uniform").uniform();
+        });
+
+
+        var loginJS = '@Url.Content("~/Content/Login/js/jquery.uniform.min.js")';
+        var script = "<script type='text/javascript' src='" + loginJS + "><" + "/script>";
+        $('head').append(script);
+        var loginCss = '@Url.Content("~/Content/Login/css/uniform.default.css")';
+        var style = "<link href='" + loginCss + "' rel='stylesheet' type='text/css' />";
+        $('head').append(style);
+    });
+</script>
+@{
+    string postURL = Url.Action("Login", "Account");    
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn-login").click(function () {
+            var model = {
+                Username: $("#txtUsername").val(),
+                Password: $("#txtPassword").val(),
+                RememberMe: $("#uniform-check-remember>span").attr('class') == 'checked'
+            };
+            console.log(model);
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify({ lgModel: model }),
+                url: '@postURL',
+                contentType: 'application/json; charset=utf-8',
+                success: function (dt) {
+                    if (dt == 'success') {
+                        location.reload();
+                    }
+                    else {
+                        console.log(dt);
+                        $("#error-message").text(dt);
+                        $("div.message").css('visibility','visible');
+                    }
+                }
+            });
+        });
+    });
+</script>

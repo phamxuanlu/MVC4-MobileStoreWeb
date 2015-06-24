@@ -1,0 +1,7 @@
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\bin\Debug\Dataprovider.dll
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\bin\Debug\Dataprovider.pdb
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\bin\Debug\MobileStore.Utilities.dll
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\bin\Debug\MobileStore.Utilities.pdb
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\obj\Debug\MobileStore.DataProvider.csprojResolveAssemblyReference.cache
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\obj\Debug\Dataprovider.dll
+H:\Do an Web\Code\LuwxMobileStore\LuwxMobileStore\Database\obj\Debug\Dataprovider.pdb

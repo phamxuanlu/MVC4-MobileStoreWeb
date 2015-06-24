@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="full_page">
+                <h1>Liên hệ</h1>
+    <div class="col_left_main contact_page">
+                
+    <!--Google Maps Start-->
+    <iframe width="325" height="300" style="float:right;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;q=Gap&amp;aq=&amp;sll=40.755458,-73.986346&amp;sspn=0.000437,0.001032&amp;ie=UTF8&amp;t=m&amp;st=115968771510351694523&amp;rq=1&amp;ev=p&amp;split=1&amp;radius=0.03&amp;hq=Gap&amp;hnear=&amp;ll=40.75535,-73.98646&amp;spn=0.000425,0.001032&amp;layer=c&amp;cbll=40.753398,-73.984663&amp;panoid=RRWXtBJKotx-EcvV7gY_vg&amp;cbp=12,180.48,,0,-10.81&amp;output=svembed"></iframe><br />
+    <!--Google Maps Ends-->
+
+    <!--Contact Starts-->
+    <address>
+        <b>Phạm Xuân Lữ</b><br/>
+        <b>Tạ Quang Tâm</b><br />
+        Tin học 9A, Học viện kỹ thuậ Quân Sự<br/>
+        phamxuanlu@outlook.com<br/>
+        (+84) 166 7747 394<br/>
+        1-800-67-9569<br/>
+    </address>
+                    
+    <!--Block Ends-->
+    <!--Form Starts-->
+    <div class="block">
+         <form id="contact-us" action="leisure_contact.html" method="post">
+            <h3>Để lại lời nhắn cho chúng tôi</h3>                  
+            <ul id="contact_form">
+                <li>
+                    <input type="text" name="contactName" id="contactName" value="" class="txt requiredField" placeholder="Name:" />
+                                        </li>
+                <li>
+                    <input type="text" name="email" id="email" value="" class="txt requiredField email" placeholder="Email:" />
+                                        </li>
+                <li>
+                    <textarea name="comments" id="commentsText" rows="10" class="txtarea requiredField" placeholder="Message:"></textarea>
+                                        </li>
+                <li>
+                    <button name="submit" type="submit" class="subbutton brown_btn">Gửi phản hồi!</button>
+                    <input type="hidden" name="submitted" id="submitted" value="true" />
+                </li>
+            </ul>
+        </form>
+    </div>
+    <!--Form Ends-->
+                      
+    <!--Contact Ends-->
+    </div>
+    <div class="col_right">
+        <div class="block-progress">
+            <div class="block-title">Chăm sóc khách hàng</div>
+                <ul>
+                    <li>F.A.Q</li>
+                    <li>Thanh toán</li>
+                    <li>Thông tin đặt hàng</li>
+                    <li>Vận chuyển</li>
+                    <li>Điều khoản sử dụng</li>
+                </ul>
+        </div>
+        <div class="right_promo">
+        <img src="@Url.Content("~/images/side_promo_banner.jpg")">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿<!--Header Starts-->
+<header>
+    <div class="top_bar clear">
+
+        <!--Top Links Starts-->
+        <ul class="top_links">
+           @if (HttpContext.Current.User.Identity.IsAuthenticated)
+           {
+                <li><a href="#">@User.Identity.Name</a></li>
+                <li><a href="@Url.Action("MyCart", "Cart", null)">GIỎ HÀNG</a></li>
+                <li><a href="@Url.Action("Logout", "Account")">ĐĂNG XUẤT</a></li>
+           }
+           else
+           {
+               <li><a href="@Url.Action("MyCart", "Cart", null)">GIỎ HÀNG</a></li>
+                <li><a id="login-widget" href="@Url.Action("LoginBox","Account")">Đăng nhập/Đăng ký</a></li>
+                @*<li class="highlight"><a id="register-box" href="@Url.Action("LoginBox","Account")#toregister">Đăng ký</a></li>*@
+           }
+        </ul>
+        <!--Top Links Ends-->
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var lis = $("ul.top_links>li");
+            lis.on('hover', function () {
+                $.each(lis, function (index, val) {
+                    $(val).removeClass('highlight');
+                });
+                $(this).addClass('highlight');
+            });
+
+            $("a#login-widget").fancybox();
+        });
+
+
+    </script>
+
+</header>
+<!--Header Ends-->

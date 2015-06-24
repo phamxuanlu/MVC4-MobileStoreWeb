@@ -1,0 +1,28 @@
+﻿@using MobileStore.Bussiness.Models
+@{
+    List<Category> ListBrands = ViewData["ListBrands"] as List<Category>;    
+}
+<div class="sideNavCategories">
+        <h1>@ViewData["type"]</h1>
+        <ul class="category departments">
+            @if (ViewData["type"] == "Điện thoại")
+            {
+                <li class="header">Hãng sản xuất</li>   
+            }
+            else
+            { 
+                <li class="header">Loại phụ kiện</li> 
+            }
+            @foreach (Category br in ListBrands)
+            {
+                <li><a href="@Url.Action("ListProduct", "Category", new { ID=br.CategoryID,type=ViewData["cat-type"]})">@br.Name</a></li>
+            }
+        </ul>
+
+        <ul class="category price">
+            <li class="header">Mức Giá</li>
+            <li><a href="#">$50 to $100</a></li>
+            <li><a href="#">$100 to $200</a></li>
+            <li><a href="#">$200 to $500</a></li>
+        </ul>
+    </div>

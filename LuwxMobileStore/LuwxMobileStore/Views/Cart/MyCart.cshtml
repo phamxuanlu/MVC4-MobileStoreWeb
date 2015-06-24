@@ -1,0 +1,132 @@
+﻿@using MobileStore.Bussiness.Models
+@using MobileStore.CartUtility
+@{
+    ViewBag.Title = "MyCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Cart<Product> cart = ViewData["MyCart"] as Cart<Product>;
+}
+
+<!--CART STARTS-->
+<div id="shopping_cart" class="full_page">
+<h1>Giỏ Hàng</h1>
+<div class="action_buttonbar">
+    <button type="button" title="" class="continue">Tiếp tục mua hàng</button>
+    <button type="button" title="" class="checkout">Thanh toán</button>
+</div>
+<div class="cart_table">
+    <table class="data-table cart-table" id="shopping-cart-table" cellpadding="0" cellspacing="0">
+    <tr>
+        <th colspan="2">Sản phẩm</th>
+        <th class="align_center" width="12%">Đơn giá</th>
+        <th class="align_center" width="10%">Số lượng</th>
+        <th class="align_center" width="12%">Thành tiền</th>
+        <th class="align_center" width="6%"></th>
+    </tr>
+        @for(int i=0;i<cart.ListItems.Count;i++)
+        {
+            <tr>
+                <td width="10%"><img src="@cart.ListItems[i].Item.ImageSource"></td>
+                <td class="align_left" width="44%"><a class="pr_name" href="#">@cart.ListItems[i].Item.Name</a></td>
+                <td class="align_center vline"><span class="price">@cart.ListItems[i].Item.ListedPrice</span></td>
+                <td class="align_center vline"><input class="qty_box" value="@cart.ListItems[i].Quantity" type="text"><input type="button" data-product-id="@cart.ListItems[i].Item.ProductID"  name="btnUpdate" value="Cập nhật" /></td>
+                <td class="align_center vline"><span class="price">@cart.ListItems[i].Subtotal()</span></td>
+                <td class="align_center vline"><a href="#" data-product-id="@cart.ListItems[i].Item.ProductID" class="remove"></a></td>
+            </tr>
+        }
+    </table>
+    <div class="totals">
+    <table id="totals-table">
+        @*<tr>
+            <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
+            <td class="align_right" style=""><strong><span class="price">$109.00</span></strong></td>
+        </tr>
+        <tr>
+            <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
+            <td class="align_right" style=""><span class="price">$0.00</span></td>
+        </tr>*@
+        <tr>
+            <td width="60%" colspan="1" class="align_left total" >Tổng tiền</td>
+            <td class="align_right" style=""><span id="grand_total" class="total">@cart.CalculateAmount()</span></td>
+        </tr>                
+    </table>
+    </div>
+</div>
+<div class="action_buttonbar">
+    <button type="button" title="" class="continue">Tiếp tục mua hàng</button>
+    <button type="button" title="" class="checkout">Thanh toán</button>
+</div>
+</div>
+<!--CART ENDS--> 
+@{
+    string updateUrl = Url.Action("UpdateToCart", "Cart");
+    string totalUrl = Url.Action("GrandTotal","Cart");
+    string deleteUrl = Url.Action("DeleteProduct","Cart");
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".continue").on('click', function () {
+            window.location.href = '@Url.Action("Index", "Home", null)';
+        });
+
+        $(".checkout").on('click', function () {
+            window.location.href = '@Url.Action("Checkout","Checkout",null)';
+        });
+
+        //Update button click
+        $('input[name="btnUpdate"]').on('click', function () {
+            var id = $(this).attr('data-product-id');
+            var qty = $(this).prev().val();
+            var inp = $(this);
+            $.ajax({
+                type: 'POST',
+                url: '@updateUrl',
+                data: { ID: id, Quantity: qty },
+                success:function(res)
+                {
+                    if(res!='')
+                    {
+                        $(inp).parent().next().children().first().text(res);
+                        $.post('@totalUrl', '', function (res) {
+                            $('#grand_total').text(res);
+                        });
+                    }
+                }
+            });
+        });
+
+        //Remove product from cart
+        $('.remove').on('click', function () {
+            var tr = $(this).closest('tr');
+            var id = $(this).attr('data-product-id');
+            $.ajax({
+                type: 'POST',
+                url: '@deleteUrl',
+                data: { ID: id },
+                success: function (res) {
+                    if (res === 'success') {
+                        //remove and update total
+                        $(tr).hide('slow', function () { $(this).remove(); });
+                        $.post('@totalUrl', '', function (res) {
+                            $('#grand_total').text(res);
+                        });
+                        //update mini cart
+                        $.ajax({
+                            type: 'GET',
+                            url: '/Layout/_PartialMiniCart',
+                            success: function (res) {
+                                $('#mini_cart').html(res);
+                                console.log(res);
+                                jQuery(".minicart_link").toggle(function () {
+                                    $('.cart_drop').slideDown(300);
+                                }, function () {
+                                    $('.cart_drop').slideUp(300);
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+    });
+</script>

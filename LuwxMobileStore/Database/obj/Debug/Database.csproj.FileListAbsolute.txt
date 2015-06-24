@@ -1,0 +1,4 @@
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\Database\bin\Debug\Dataprovider.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\Database\bin\Debug\Dataprovider.pdb
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\Database\obj\Debug\Dataprovider.dll
+H:\Do an Web\Code\luwxmobilestore\LuwxMobileStore\Database\obj\Debug\Dataprovider.pdb
